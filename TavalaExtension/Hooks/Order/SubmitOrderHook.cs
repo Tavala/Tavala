@@ -13,10 +13,10 @@ namespace TavalaExtension.Hooks.Order
         {
             _ordersService = ordersService ?? throw new ArgumentNullException(nameof(ordersService));
         }
-        public Task<SubmitOrderHookResponse> Invoke(SubmitOrderHookRequest request, Func<SubmitOrderHookRequest, Task<SubmitOrderHookResponse>> func)
+        public async Task<SubmitOrderHookResponse> Invoke(SubmitOrderHookRequest request, Func<SubmitOrderHookRequest, Task<SubmitOrderHookResponse>> func)
         {
             request = _ordersService.AddSkuToOrder(request);
-            var result = func(request);
+            var result = await func(request);
             return result;
         }
     }

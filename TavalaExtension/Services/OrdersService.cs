@@ -3,13 +3,14 @@ using TavalaExtension.Repositories;
 using DirectScale.Disco.Extension.Services;
 using DirectScale.Disco.Extension.Hooks.Orders;
 using DirectScale.Disco.Extension;
+using System.Threading.Tasks;
 
 namespace TavalaExtension.Services
 {
 
     public interface IOrdersService
     {
-        SubmitOrderHookRequest AddSkuToOrder(SubmitOrderHookRequest request);
+       SubmitOrderHookRequest AddSkuToOrder(SubmitOrderHookRequest request);
     }
     public class OrdersService: IOrdersService
     {
@@ -23,7 +24,7 @@ namespace TavalaExtension.Services
             _orderService = orderService ?? throw new ArgumentNullException(nameof(orderService));
             _itemService = itemService ?? throw new ArgumentNullException(nameof(itemService));
         }
-        public SubmitOrderHookRequest AddSkuToOrder(SubmitOrderHookRequest request)
+        public  SubmitOrderHookRequest AddSkuToOrder(SubmitOrderHookRequest request)
         {
 
             if(_ordersRepository.CheckIfFirstOrder(request.Order.AssociateId)== false)
@@ -41,14 +42,14 @@ namespace TavalaExtension.Services
                     if (sku275Exists == false)
                     {
 
-                        
+                        Task<LineItem> itemFromInventory = _itemService.GetLineItemById(275, 1, "USD", "en", 1, 1, 1, 1, "us");
                         LineItem[] newSkus= request.Order.LineItems;
 
                         // We will resize the original array and increase the length by 1
                         Array.Resize(ref newSkus, newSkus.Length + 1);
 
                         LineItem lineItemEntry = request.Order.LineItems[0];
-                        lineItemEntry.ItemId = 275;
+                        lineItemEntry.ItemId = itemFromInventory.Result.ItemId;
                         lineItemEntry.Quantity = 1;
 
                         // Adding a new element by adding a new item on the last element
