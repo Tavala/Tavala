@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DirectScale.Disco.Extension.Middleware;
 using DirectScale.Disco.Extension.Middleware.Models;
+using TavalaExtension.Hooks.Order;
 
 namespace TavalaExtension
 {
@@ -24,7 +25,8 @@ namespace TavalaExtension
             services.AddRazorPages();
             services.AddDirectScale(options =>
             {
-                options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
+                options.AddHook<SubmitOrderHook>();
+                //options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
                 //options.AddHook<CreateAutoshipHook>();
                 //options.AddMerchant<StripeMoneyIn>();
                 //options.AddEventHandler("OrderCreated", "/api/webhooks/Order/CreateOrder");

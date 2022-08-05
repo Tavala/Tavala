@@ -41,6 +41,12 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "DirectScale.Disco.Extension.Abstractions": {
+              "target": "Package",
+              "version": "[1.0.5214, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
