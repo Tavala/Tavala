@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DirectScale.Disco.Extension.Middleware;
+using DirectScale.Disco.Extension.Middleware.Models;
 
 namespace TavalaExtension
 {
@@ -24,6 +22,13 @@ namespace TavalaExtension
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddDirectScale(options =>
+            {
+                options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
+                //options.AddHook<CreateAutoshipHook>();
+                //options.AddMerchant<StripeMoneyIn>();
+                //options.AddEventHandler("OrderCreated", "/api/webhooks/Order/CreateOrder");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +51,7 @@ namespace TavalaExtension
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseDirectScale();
 
             app.UseEndpoints(endpoints =>
             {
