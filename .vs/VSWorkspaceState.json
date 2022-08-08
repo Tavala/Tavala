@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\TavalaExtension",
+    "\\TavalaExtension\\Services"
   ],
-  "SelectedNode": "\\D:\\DiscoExtensionNew\\Tavala",
+  "SelectedNode": "\\TavalaExtension\\Services\\OrdersService.cs",
   "PreviewInSolutionExplorer": false
 }

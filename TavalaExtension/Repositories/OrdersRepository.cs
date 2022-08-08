@@ -21,9 +21,15 @@ namespace TavalaExtension.Repositories
         public bool CheckIfFirstOrder(int distributorId)
         {
             bool exists = false;
+
             using (var dbConnection = new SqlConnection(_dataService.GetClientConnectionString().Result))
             {
-                var query = $@"select count(*) from ORD_Order where DistributorId = @distributorId";
+                var query = $@"SELECT COUNT(*)
+                            FROM ORD_OrderDetail od
+                                JOIN ORD_Order o ON o.RecordNumber = od.OrderNumber
+                            WHERE o.DistributorID = @distributorId
+                                AND o.InvoiceDate IS NOT NULL
+                                AND o.Void = 0";
                 int count =  dbConnection.QueryFirstOrDefault<int>(query, new { distributorId }); 
                 if (count > 0)
                     exists = true;

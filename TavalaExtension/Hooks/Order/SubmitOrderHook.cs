@@ -9,6 +9,8 @@ namespace TavalaExtension.Hooks.Order
     public class SubmitOrderHook : IHook<SubmitOrderHookRequest, SubmitOrderHookResponse>
     {
         private readonly IOrdersService _ordersService;
+
+
         public SubmitOrderHook(IOrdersService ordersService)
         {
             _ordersService = ordersService ?? throw new ArgumentNullException(nameof(ordersService));
