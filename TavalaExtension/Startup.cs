@@ -5,7 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DirectScale.Disco.Extension.Middleware;
-using DirectScale.Disco.Extension.Middleware.Models;
+using TavalaExtension.Hooks.Order;
+using TavalaExtension.Repositories;
+using TavalaExtension.Services;
 
 namespace TavalaExtension
 {
@@ -24,11 +26,19 @@ namespace TavalaExtension
             services.AddRazorPages();
             services.AddDirectScale(options =>
             {
-                options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
+                options.AddHook<SubmitOrderHook>();
+                //options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
                 //options.AddHook<CreateAutoshipHook>();
                 //options.AddMerchant<StripeMoneyIn>();
                 //options.AddEventHandler("OrderCreated", "/api/webhooks/Order/CreateOrder");
             });
+
+            //Repositories
+            services.AddSingleton<IOrdersRepository, OrdersRepository>();
+
+            //Services
+            services.AddSingleton<IOrdersService, OrdersService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
