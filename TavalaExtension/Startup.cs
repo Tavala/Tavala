@@ -74,7 +74,7 @@ namespace TavalaExtension
                 var serverUrl = environmentUrl.Replace("https://vidafy.corpadmin.", "");
                 var appendUrl = @" http://"+ serverUrl + " " + "https://" + serverUrl + " " + "http://*." + serverUrl + " " + "https://*." + serverUrl;
 
-                var csPolicy = "frame-ancestors https://vaa.corpadmin.directscale.com https://vaa.corpadmin.directscalestage.com https://639e-117-247-182-219.in.ngrok.io https://localhost:44308" + appendUrl + ";";
+                var csPolicy = "frame-ancestors https://vaa.corpadmin.directscale.com https://vaa.corpadmin.directscalestage.com" + appendUrl + ";";
                 app.UseRequestLocalization();
 
                 if (env.IsDevelopment())
