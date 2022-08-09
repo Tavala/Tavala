@@ -49,7 +49,50 @@ namespace TavalaExtension.Services
                         Localization locationInfo = _associateService.GetLocalization(request.Order.AssociateId).GetAwaiter().GetResult(); ;
                         var associateType = _associateService.GetAssociate(order.AssociateId).Result.AssociateType;
 
-                        LineItem  enrollPack = _itemService.GetLineItemById(ENROLLPACK, 1, locationInfo.CurrencyCode, locationInfo.LanguageCode, locationInfo.RegionId, (int)order.OrderType, associateType, order.StoreId, locationInfo.CountryCode).GetAwaiter().GetResult(); ;
+                        string currencyCode = locationInfo.CurrencyCode;
+                        switch (currencyCode)
+                        {
+                            case null:
+                                currencyCode = "usd";
+                                break;
+                            default:
+                                if (currencyCode.Trim().Length == 0)
+                                    currencyCode = "usd";
+                                break;
+                        }
+
+                        string languageCode = locationInfo.LanguageCode;
+                        switch (languageCode)
+                        {
+                            case null:
+                            languageCode = "en";
+                                break;
+                            default:
+                                if (languageCode.Trim().Length == 0)
+                                    languageCode = "en";
+                                break;
+                        }
+
+                    int regionId = locationInfo.RegionId;
+                        if(regionId == 0)
+                        {
+                            regionId = 1;
+                        }
+
+                        string countryCode = locationInfo.CountryCode;
+                        switch (countryCode)
+                        {
+                            case null:
+                                countryCode = "us";
+                                break;
+                            default:
+                                if (countryCode.Trim().Length == 0)
+                                    countryCode = "us";
+                                break;
+                        }
+
+                        LineItem  enrollPack = _itemService.GetLineItemById(ENROLLPACK, 1, currencyCode, languageCode,
+                                                regionId, (int)order.OrderType, associateType, order.StoreId, countryCode).GetAwaiter().GetResult(); ;
                         if (enrollPack == null) throw new Exception($"Cannot find item Enroll Pack'");
 
                         LineItem[] newSkus= request.Order.LineItems;
