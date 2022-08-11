@@ -46,7 +46,7 @@ namespace TavalaExtension.Services
 
                     if (sku275Exists == false)
                     {
-                        Localization locationInfo = _associateService.GetLocalization(request.Order.AssociateId).GetAwaiter().GetResult(); ;
+                        Localization locationInfo = _associateService.GetLocalization(request.Order.AssociateId).GetAwaiter().GetResult();
                         var associateType = _associateService.GetAssociate(order.AssociateId).Result.AssociateType;
 
                         string currencyCode = locationInfo.CurrencyCode;
@@ -92,7 +92,7 @@ namespace TavalaExtension.Services
                         }
 
                         LineItem  enrollPack = _itemService.GetLineItemById(ENROLLPACK, 1, currencyCode, languageCode,
-                                                regionId, (int)order.OrderType, associateType, 1, countryCode).GetAwaiter().GetResult(); ;
+                                                regionId, (int)order.OrderType, associateType, 1, countryCode).GetAwaiter().GetResult();
                         if (enrollPack == null) throw new Exception($"Cannot find item Enroll Pack'");
 
                         LineItem[] newSkus= request.Order.LineItems;
